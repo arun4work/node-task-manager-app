@@ -1,5 +1,5 @@
 const express = require('express');
-const Task = require('../model/task');
+const Task = require('../models/task');
 const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.post('/tasks', authMiddleware, async (req, res) => {
     });
     try {
         await task.save();
-        res.send(task);
+        res.status(201).send(task);
     } catch (e) {
         res.status(400).send({error: e.message});
     }

@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const sharp = require('sharp');
-const User = require('../model/user');
+const User = require('../models/user');
 const authMiddleware = require('../middleware/auth');
 const {sendWelcomeMail, sendCancelationEmail} = require('../email/account');
 
@@ -14,7 +14,7 @@ router.post('/users', async (req, res) => {
         await user.save();
         const token = await user.generateAuthToken(); //generate auth token with JWT and save to DB and send the token back to client
         sendWelcomeMail(user.email, user.name);
-        res.send({user, token});
+        res.status(201).send({user, token});
     } catch (e) {
         res.status(400).send({error: e.message});
     }
